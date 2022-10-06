@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+:root {
+    --bkgd-operations-color: #C3D2FB;
+    --bkgd-btn: #fff;
+    --bkgd-btn-hover: #f6f6f6;
+    --opBtn-text-color: #96a6d4;
+    --current-number: black --text-number-color: black;
+    --body: #fff;
+    --label-color: black;
+}
+
+.dark-mode:root {
+    --bkgd-operations-color: #112353;
+    --bkgd-btn: #030012;
+    --bkgd-btn-hover: #050626;
+    --opBtn-text-color: #96a6d4;
+    --current-number: #fff;
+    --text-number-color: #fff;
+    --body: rgb(2, 0, 36);
+    --label-color: white;
+}
+
+body {
+    background: var(--body);
+    transition: background 0.2s linear;
+    font-family: 'Poppins', sans-serif;
+}
+
+/**checkbox**/
+#checkbox {
+    width: 180px;
+    margin: auto;
+    margin-top: 28px;
+}
+
+label {
+    color: var(--label-color);
+}
+
+/*calc*/
+#main {
+    width: 270px;
+    height: 500px;
+
+    margin: auto;
+    margin-top: 30px;
+
+    box-shadow: 0px 3px 20px 0px rgba(0, 0, 0, 0.29);
+    -webkit-box-shadow: 0px 3px 20px 0px rgba(0, 0, 0, 0.29);
+    -moz-box-shadow: 0px 3px 20px 0px rgba(0, 0, 0, 0.29);
+
+}
+
+/*results*/
+#operations {
+    width: 100%;
+    height: 30%;
+
+    text-align: right;
+
+    background-color: var(--bkgd-operations-color);
+}
+
+
+#previous-operatiions {
+    padding: 0.2em;
+    overflow-wrap: break-word;
+
+    min-height: 1.6em;
+    font-size: 32px;
+    color: #777;
+}
+
+#current-operatiions {
+    min-height: 1.6em;
+    max-height: 100px;
+
+    font-size: 3em;
+    font-weight: 700;
+
+    padding: 0.2em;
+    overflow-wrap: break-word;
+
+    color: var(--current-number);
+}
+
+/*btns*/
+#btncontainer {
+    width: 100%;
+    height: 70%;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 3px;
+
+    background-color: var(--bkgd-btn)
+}
+
+#btncontainer #equal-btn {
+    grid-column: span 2;
+
+}
+
+button {
+    font-size: 30px;
+    background-color: var(--bkgd-btn);
+    border: none;
+    color: var(--opBtn-text-color);
+}
+
+button:hover {
+    background-color: var(--bkgd-btn-hover);
+    cursor: pointer;
+}
+
+#btncontainer .number {
+    color: var(--text-number-color)
+}
