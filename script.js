@@ -11,7 +11,6 @@ class Calculator {
         this.current = "";
     }
 
-
     addDigit(digit) {
         if (digit === "." && this.currentOperation.innerText.includes(".")) {
             return
@@ -20,22 +19,21 @@ class Calculator {
         }
         this.current = digit
         this.updateScreen()
-
     }
 
-
     updateScreen(previous = null, operation = null, current = null, operationValue = null) {
+
         if (operationValue === null) {
-            //Append number to current value
+            console.log(previous)
             this.currentOperation.innerText += this.current
         } else {
+            console.log(previous)
             if (previous === 0) {
                 operationValue = current
             }
             this.previousCheckLength(operationValue, operation)
         }
     }
-
 
     previousCheckLength(operationValue, operation) {
         //round off decimal places
@@ -49,17 +47,15 @@ class Calculator {
         }
     }
 
-
     processOperation(operation) {
-        //check if current is empty
-        if (this.currentOperation.innerText === "" && operation !== "C") {
+        if (this.currentOperation.innerText === "" && operation !== 'C') {
             if (this.previousOperation.innerText !== "") {
-                this.changeOperation(operation)
+                this.changeMathOperation(operation)
             }
             return
         }
-        const current = +this.currentOperation.innerText
-        const previous = +this.previousOperation.innerText.split(" ")[0]
+        let current = +this.currentOperation.innerText
+        let previous = +this.previousOperation.innerText.split(" ")[0]
         let operationValue;
 
         switch (operation) {
@@ -71,108 +67,91 @@ class Calculator {
                 operationValue = previous - current
                 this.updateScreen(previous, operation, current, operationValue)
                 break;
-            case '/':
-                operationValue = previous / current
-                this.updateScreen(previous, operation, current, operationValue)
-                break;
             case '*':
                 operationValue = previous * current
                 this.updateScreen(previous, operation, current, operationValue)
                 break;
-            case 'CE':
-                this.processCE()
+            case '/':
+                operationValue = previous / current
+                this.updateScreen(previous, operation, current, operationValue)
                 break;
+
             case 'C':
-                this.processC()
+                this.clearAllOperations()
+                break;
+            case 'CE':
+                this.clearCurrentOperations()
                 break;
             case 'DEL':
-                this.processDEL()
+                this.clearDigit()
                 break;
             case '=':
                 if (this.currentOperation.innerText === ".") {
                     return
                 } else {
-                    this.processEqual()
+                    this.equal()
                 }
-                break;
+                break
             default:
                 return
         }
     }
-
-
-    changeOperation(operation) {
-        const mathOperations = [
-            '-', '+', '/', '*'
-        ]
+    changeMathOperation(operation) {
+        const mathOperations = ['+', '*', '/', '-']
         if (!mathOperations.includes(operation)) {
             return
         }
         this.previousOperation.innerText = this.previousOperation.innerText.slice(0, -1) + operation
-
     }
 
-
-    processCE() {
-        //clear current
-        this.currentOperation.innerText = "";
-    };
-
-
-    processC() {
-        //clear all
-        this.currentOperation.innerText = "";
-        this.previousOperation.innerText = "";
+    clearAllOperations() {
+        this.previousOperation.innerText = ""
+        this.currentOperation.innerText = ""
     }
-
-
-    processDEL() {
-        //clear character
+    clearCurrentOperations() {
+        this.currentOperation.innerText = ""
+    }
+    clearDigit() {
         this.currentOperation.innerText = this.currentOperation.innerText.slice(0, -1)
-    };
+    }
+    equal() {
+        let operation = this.previousOperation.innerText.split(" ")[1];
 
-
-    processEqual(operation) {
-        //result
-        const operations = this.previousOperation.innerText.split(" ")[1]
-        this.processOperation(operations)
-
-    };
+        this.processOperation(operation)
+    }
 }
 
-
-const Calc = new Calculator(previousOperation, currentOperation)
+const calc = new Calculator(previousOperation, currentOperation)
 
 
 buttons.forEach((btn) => {
-    btn.addEventListener('click', (e) => {
+    btn.addEventListener("click", (e) => {
         const value = e.target.innerText;
 
         if (+value >= 0 || value === ".") {
-            Calc.addDigit(value)
+
+            calc.addDigit(value);
         } else {
-            Calc.processOperation(value)
+            calc.processOperation(value);
         }
-    })
-})
+    });
+});
 
 
 window.addEventListener("keydown", (e) => {
     const value = e.key
 
     if (+value >= 0 || value === ".") {
-        Calc.addDigit(value)
+        calc.addDigit(value)
     } else {
-        Calc.processOperation(value)
+        calc.processOperation(value)
     }
 
     if (value == "Enter") {
-        Calc.processOperation("=")
-        Calc.processEqualOperator()
-    }
+        calc.processOperation("=")
+        calc.equal()
+    } 
 })
-
-
 $checkbox.addEventListener('change', () => {
     $html.classList.toggle('dark-mode')
 })
